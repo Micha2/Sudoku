@@ -1,8 +1,0 @@
-<mat-card-content>selected tile = {{ selectedTile }}</mat-card-content>
-<main>
-  <app-tile *ngFor="let tile of tiles; index as i" [value]="tile" (click)="selectedTile = i">
-  </app-tile>
-</main>
-<div>
-  <app-control-area></app-control-area>
-</div>
