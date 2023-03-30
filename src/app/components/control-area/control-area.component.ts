@@ -24,12 +24,51 @@ export class ControlAreaComponent implements OnInit {
     this.board.selectedTile.value = newVal
   }
 
+  solveSudoku(): Boolean {
+    // Finde das nächste leere Feld
+    const nextEmpty = this.findNextEmpty()
+    if(!nextEmpty) {
+      // Alle Felder sind gefüllt, Sudoku ist gelöst
+      return true
+    }
+
+    // Probiere alle möglichen Zahlen für das leere Feld aus
+    for(let i = 1; i <= 9; i++) {
+      if(this.numberPossible(i, nextEmpty[0], nextEmpty[1])) {
+        // Setze die Zahl und versuche, das Sudoku rekursiv weiterzulösen
+        this.board.board[nextEmpty[0]][nextEmpty[1]].value = i
+        if(this.solveSudoku()) {
+          // Sudoku wurde gelöst
+          return true
+        }
+        // Wenn das Sudoku nicht gelöst wurde, setze das Feld zurück und versuche eine andere Zahl
+        this.board.board[nextEmpty[0]][nextEmpty[1]].value = undefined
+      }
+    }
+
+    // Keine der möglichen Zahlen funktioniert, Sudoku ist unlösbar
+    return false
+  }
+
+  findNextEmpty(): [number, number] | null {
+    for(let i = 0; i < 9; i++) {
+      for(let j = 0; j < 9; j++) {
+        if(this.board.board[i][j].value == undefined) {
+          // Leeres Feld gefunden
+          return [i, j]
+        }
+      }
+    }
+    // Kein leeres Feld gefunden
+    return null
+  }
+
   solve(row: number = 0, col: number = 0) {
     if(row == 9) {
       return
     }
 
-    if(this.board.board[row][col].value == 0) {
+    if(this.board.board[row][col].value == undefined) {
       for(let i of range(1, 9)) {
         if(this.numberPossible(i, row, col)) {
           this.board.board[row][col].value = i
@@ -42,7 +81,7 @@ export class ControlAreaComponent implements OnInit {
               this.solve(row, col + 1)
             }
           }
-          this.board.board[row][col].value = 0
+          this.board.board[row][col].value = undefined
         }
       }
     } else {
@@ -61,12 +100,12 @@ export class ControlAreaComponent implements OnInit {
   solveAlternative() {
     this.board.board.forEach((row, rowI) => {
       row.forEach((column, columnI) => {
-        if(this.board.board[rowI][columnI].value == 0) {
+        if(this.board.board[rowI][columnI].value == undefined) {
           for(let i of range(1, 9)) {
             if(this.numberPossible(i, rowI, columnI)) {
               this.board.board[rowI][columnI].value = i
               this.solveAlternative()
-              this.board.board[rowI][columnI].value = 0
+              this.board.board[rowI][columnI].value = undefined
             }
           }
           return

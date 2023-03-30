@@ -21,7 +21,7 @@ export class BoardComponent implements OnInit {
     for(let i = 0; i < 9; i++) {
       this.board[i] = new Array(9)
       for(let k = 0; k < 9; k++) {
-        this.board[i][k] = new Tile(0)
+        this.board[i][k] = new Tile()
       }
     }
     this.selectedTile = this.board[0][0]

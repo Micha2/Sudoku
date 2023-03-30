@@ -8,4 +8,13 @@ import { Tile } from "./Tile"
 })
 export class TileComponent {
   @Input() tile!: Tile
+
+  setTile(newVal: any) {
+    let valAsNr = parseInt(newVal)
+
+    if(isNaN(valAsNr))
+      this.tile.value = undefined
+    else
+      this.tile.value = valAsNr
+  }
 }

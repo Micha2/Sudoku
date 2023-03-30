@@ -1,9 +1,13 @@
-<main>
-  <ng-container *ngFor="let row of board; index as i;">
-    <app-tile (click)="setCurrentTileWithLocation(tile, [i, k])" *ngFor="let tile of row; index as k;" [tile]="tile">
-    </app-tile>
-  </ng-container>
-</main>
-<div style="border: 1px solid black;">
+<div id="table-div">
+  <table>
+    <tbody>
+      <tr *ngFor="let row of board; index as i;">
+        <app-tile (click)="setCurrentTileWithLocation(tile, [i, k])" *ngFor="let tile of row; index as k;" [tile]="tile">
+        </app-tile>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div>
   <app-control-area></app-control-area>
 </div>
