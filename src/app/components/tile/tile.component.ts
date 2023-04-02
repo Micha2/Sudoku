@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import { Tile } from "./Tile"
+import {Tile} from "./Tile"
 
 @Component({
   selector: 'app-tile',
@@ -16,5 +16,9 @@ export class TileComponent {
       this.tile.value = undefined
     else
       this.tile.value = valAsNr
+  }
+
+  print() {
+    console.log(this.tile)
   }
 }

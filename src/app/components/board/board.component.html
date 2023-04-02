@@ -1,13 +1,22 @@
 <div id="table-div">
   <table>
     <tbody>
-      <tr *ngFor="let row of board; index as i;">
-        <app-tile (click)="setCurrentTileWithLocation(tile, [i, k])" *ngFor="let tile of row; index as k;" [tile]="tile">
-        </app-tile>
-      </tr>
+    <tr *ngFor="let row of board; index as i;">
+      <td *ngFor="let tile of row; index as k;">
+        <input (click)="setCurrentTileWithLocation(tile, [i, k])" [(ngModel)]="tile.value" maxlength="1">
+      </td>
+    </tr>
     </tbody>
   </table>
 </div>
 <div>
-  <app-control-area></app-control-area>
+  <button (click)="solveAlternative()" mat-icon-button title="Solve">
+    <mat-icon>auto_fix_high</mat-icon>
+  </button>
+  <button (click)="resetSudoku()" mat-icon-button title="Restart">
+    <mat-icon>restart_alt></mat-icon>
+  </button>
+  <button (click)="print()" mat-icon-button title="Print Sudoku as JSON to console">
+    <mat-icon>print></mat-icon>
+  </button>
 </div>
