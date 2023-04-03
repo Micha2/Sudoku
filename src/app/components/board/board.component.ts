@@ -17,77 +17,21 @@ export class BoardComponent implements OnInit {
   }
 
   ngOnInit() {
-    let jsonBoard: string = `[
-  [{}, {}, {}, {}, { "value": "1" }, {}, {}, {}, {}],
-  [
-    { "value": "2" },
-    {},
-    {},
-    {},
-    {},
-    {},
-    { "value": "3" },
-    { "value": "4" },
-    {}
-  ],
-  [{}, {}, { "value": "5" }, {}, {}, { "value": "6" }, {}, {}, {}],
-  [
-    {},
-    { "value": "3" },
-    {},
-    {},
-    {},
-    { "value": "4" },
-    {},
-    {},
-    { "value": "7" }
-  ],
-  [
-    {},
-    { "value": "1" },
-    {},
-    { "value": "8" },
-    {},
-    { "value": "9" },
-    {},
-    { "value": "6" },
-    {}
-  ],
-  [
-    { "value": "8" },
-    {},
-    {},
-    { "value": "1" },
-    {},
-    {},
-    {},
-    { "value": "5" },
-    {}
-  ],
-  [{}, {}, {}, { "value": "2" }, {}, {}, { "value": "9" }, {}, {}],
-  [
-    {},
-    { "value": "6" },
-    { "value": "7" },
-    {},
-    {},
-    {},
-    {},
-    {},
-    { "value": "4" }
-  ],
-  [{}, {}, {}, {}, { "value": "8" }, {}, {}, {}, {}]
-]`
-    this.board = JSON.parse(jsonBoard)
-
-    // for(let i = 0; i < 9; i++) {
-    //   this.board[i] = new Array(9)
-    //   for(let k = 0; k < 9; k++) {
-    //     this.board[i][k] = new Tile()
-    //   }
-    // }
+    this.loadSudoku()
     this.selectedTile = this.board[0][0]
     this.selectedTileLocation = [0, 0]
+  }
+
+  loadSudoku() {
+    const sudokusJsonUrl: RequestInfo = "../../../assets/Sudokus.json"
+    fetch(sudokusJsonUrl)
+      .then(response => response.json())
+      .then(boardData => {
+        this.board = boardData.map((row: any[]) => row.map(tileData => new Tile(tileData.value ? parseInt(tileData.value) : undefined)));
+      })
+      .catch(error => {
+        console.error(`Fehler beim Laden der JSON-Datei ${sudokusJsonUrl}:`, error);
+      });
   }
 
   setCurrentTileWithLocation(tile: Tile, location: [number, number]) {
@@ -100,12 +44,7 @@ export class BoardComponent implements OnInit {
   }
 
   resetSudoku() {
-    this.board.forEach((row) => {
-        row.forEach((tile) => {
-          tile.value = undefined
-        })
-      }
-    )
+    this.loadSudoku()
   }
 
   solveSudoku(): Boolean {
