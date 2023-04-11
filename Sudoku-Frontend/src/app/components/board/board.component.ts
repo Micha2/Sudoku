@@ -22,7 +22,7 @@ export class BoardComponent implements OnInit {
     this.selectedTileLocation = [0, 0]
   }
 
-  loadSudoku() {
+  async loadSudoku() {
     const sudokusJsonUrl: RequestInfo = "../../../assets/Sudokus.json"
     fetch(sudokusJsonUrl)
       .then(response => response.json())

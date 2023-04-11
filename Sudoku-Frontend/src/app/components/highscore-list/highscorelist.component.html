@@ -1,0 +1,17 @@
+<div id="highscorelist-div">
+  <table>
+    <tbody>
+    <tr *ngFor="let row of highscores; index as i;">
+      <td>
+        {{ row.localTime }}
+      </td>
+      <td>
+        {{ row.playerId }}
+      </td>
+      <td>
+        {{ row.time }}
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

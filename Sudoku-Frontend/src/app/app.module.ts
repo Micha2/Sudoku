@@ -12,16 +12,24 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatCardModule} from '@angular/material/card';
 import {FormsModule} from "@angular/forms";
 import {MatIconModule} from "@angular/material/icon";
+import { HighscorelistComponent } from './components/highscore-list/highscorelist.component';
+import { HttpClientModule } from '@angular/common/http';
+import { registerLocaleData } from "@angular/common";
+import localeDe from '@angular/common/locales/de';
+import localeDeExtra from '@angular/common/locales/extra/de';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     BoardComponent,
-    TileComponent
+    TileComponent,
+    HighscorelistComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     MatButtonModule,
     MatSlideToggleModule,
@@ -34,4 +42,7 @@ import {MatIconModule} from "@angular/material/icon";
   bootstrap: [AppComponent]
 })
 export class AppModule {
+  constructor() {
+    registerLocaleData(localeDe, 'de-DE', localeDeExtra);
+  }
 }
