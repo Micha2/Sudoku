@@ -18,6 +18,9 @@ export class SolvetimeService {
     if (solveTime.playerId) {
       solveTime.playerId = new ObjectID(solveTime.playerId)
     }
+    if (solveTime.time) {
+      solveTime.timeFormatted = this.msToTime(solveTime.time)
+    }
     return this.solveTimeRepo.save(solveTime)
   }
 
@@ -38,5 +41,34 @@ export class SolvetimeService {
 
   deleteSolveTime(id: string) {
     return this.solveTimeRepo.delete(new ObjectID(id))
+  }
+
+  msToTime(duration): string {
+    const milliseconds: number = Math.floor((duration % 1000) / 100),
+      seconds: number = Math.floor((duration / 1000) % 60),
+      minutes: number = Math.floor((duration / (1000 * 60)) % 60),
+      hours: number = Math.floor((duration / (1000 * 60 * 60)) % 24)
+
+    return (
+      hours.toLocaleString("us-US", {
+        minimumIntegerDigits: 2,
+        useGrouping: false,
+      }) +
+      " : " +
+      minutes.toLocaleString("us-US", {
+        minimumIntegerDigits: 2,
+        useGrouping: false,
+      }) +
+      " : " +
+      seconds.toLocaleString("us-US", {
+        minimumIntegerDigits: 2,
+        useGrouping: false,
+      }) +
+      "." +
+      milliseconds.toLocaleString("us-US", {
+        minimumIntegerDigits: 3,
+        useGrouping: false,
+      })
+    )
   }
 }

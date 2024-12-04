@@ -7,7 +7,6 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatButtonModule} from "@angular/material/button";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {BoardComponent} from './components/board/board.component';
-import {TileComponent} from './components/tile/tile.component';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatCardModule} from '@angular/material/card';
 import {FormsModule} from "@angular/forms";
@@ -17,14 +16,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { registerLocaleData } from "@angular/common";
 import localeDe from '@angular/common/locales/de';
 import localeDeExtra from '@angular/common/locales/extra/de';
-
+import {TimerComponent} from "./components/timer/timer.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     BoardComponent,
-    TileComponent,
-    HighscorelistComponent
+    HighscorelistComponent,
+    TimerComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,7 +35,7 @@ import localeDeExtra from '@angular/common/locales/extra/de';
     MatButtonToggleModule,
     MatCardModule,
     FormsModule,
-    MatIconModule
+    MatIconModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

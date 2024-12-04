@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {Tile} from "../tile/Tile";
+import {Tile} from "./Tile";
 import {range} from "../../range";
+import {TimerComponent} from "../timer/timer.component";
 
 @Component({
   selector: 'app-board',
@@ -14,25 +15,50 @@ export class BoardComponent implements OnInit {
   selectedTileLocation!: [number, number]
 
   constructor() {
+    // console.log(this.timer.realSec)
   }
 
   ngOnInit() {
-    this.loadSudoku()
-    this.selectedTile = this.board[0][0]
-    this.selectedTileLocation = [0, 0]
+    this.loadSudoku().then( () => {
+      this.selectedTile = this.board[0][0]
+      this.selectedTileLocation = [0, 0]
+    }
+  )
+
   }
 
-  async loadSudoku() {
-    const sudokusJsonUrl: RequestInfo = "../../../assets/Sudokus.json"
-    fetch(sudokusJsonUrl)
-      .then(response => response.json())
-      .then(boardData => {
-        this.board = boardData.map((row: any[]) => row.map(tileData => new Tile(tileData.value ? parseInt(tileData.value) : undefined)));
+  // loadSudoku() {
+  //     const sudokusJsonUrl: RequestInfo = "../../../assets/Sudokus.json"
+  //     return fetch(sudokusJsonUrl)
+  //       .then(response => response.json())
+  //       .then(boardData => {
+  //         this.board = boardData.map((row: any[]) => row.map(tileData => new Tile(tileData.value ? parseInt(tileData.value) : undefined)));
+  //       })
+  //       .catch(error => {
+  //         console.error(`Fehler beim Laden der JSON-Datei ${sudokusJsonUrl}:`, error);
+  //       });
+  // }
+
+  loadSudoku() {
+    const sudokuApiUrl: string = "https://sudoku-api.vercel.app/api/dosuku";
+    return fetch(sudokuApiUrl)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`Fehler beim Laden der Sudoku-API: ${response.statusText}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        const grid = data.newboard.grids[0].value;
+        this.board = grid.map((row: number[]) =>
+          row.map(value => new Tile(value !== 0 ? value : undefined))
+        );
       })
       .catch(error => {
-        console.error(`Fehler beim Laden der JSON-Datei ${sudokusJsonUrl}:`, error);
+        console.error(`Fehler beim Laden des Sudokus von der API ${sudokuApiUrl}:`, error);
       });
   }
+
 
   setCurrentTileWithLocation(tile: Tile, location: [number, number]) {
     this.selectedTile = tile
@@ -42,6 +68,10 @@ export class BoardComponent implements OnInit {
   print() {
     console.log(JSON.stringify(this.board))
   }
+
+  // sendTime() {
+  //   this.timer.
+  // }
 
   resetSudoku() {
     this.loadSudoku()

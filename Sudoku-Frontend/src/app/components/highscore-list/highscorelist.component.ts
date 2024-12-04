@@ -7,7 +7,7 @@ import { formatDate } from "@angular/common";
   templateUrl: './highscorelist.component.html',
   styleUrls: ['./highscorelist.component.scss']
 })
-export class HighscorelistComponent {
+export class HighscorelistComponent implements OnInit {
   highscores: Solvetime[]
   localTime: String
   constructor(private http: HttpClient) {}
@@ -17,15 +17,15 @@ export class HighscorelistComponent {
   }
 
   async fetchTimes() {
-    await this.http.get<Solvetime[]>("http://localhost:3000/api/solvetime").subscribe({
+    return this.http.get<Solvetime[]>("http://localhost:3000/api/solvetime").subscribe({
       next: (solvetimes: Solvetime[]) => {
-        this.highscores = solvetimes
-        this.highscores.forEach( (highscore) => {
-          highscore.localTime = formatDate(highscore.createDate, "dd.MM.YYYY hh:mm", "de-DE")
-        })
+        this.highscores = solvetimes;
+        this.highscores.forEach((highscore) => {
+          highscore.createDateFormatted = formatDate(highscore.createDate, "dd.MM.YYYY hh:mm", "de-DE")
+        });
       },
       error: (err) => {
-        console.log(err)
+        console.log(err);
       }
     })
   }

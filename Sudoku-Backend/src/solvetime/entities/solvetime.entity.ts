@@ -13,5 +13,8 @@ export class SolvetimeEntity {
   time: number
 
   @Column()
+  timeFormatted: string
+
+  @Column()
   playerId: string
 }
